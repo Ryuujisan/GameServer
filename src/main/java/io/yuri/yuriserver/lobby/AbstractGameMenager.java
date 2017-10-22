@@ -4,12 +4,17 @@ public abstract class AbstractGameMenager {
     private static AbstractGameMenager instance;
     protected AbstractRoomMenager roomMenager;
     protected AbstractMainFactory mainFactory;
-    protected AbstractLobby       abstractLobby;
+    protected AbstractLobby lobby;
 
+
+    public AbstractGameMenager() {
+        setInstance(this);
+    }
 
     public static void setInstance(AbstractGameMenager instance) {
         if(AbstractGameMenager.instance == null) {
             AbstractGameMenager.instance = instance;
+            instance.createMainClass();
         }
     }
 
@@ -18,7 +23,7 @@ public abstract class AbstractGameMenager {
     }
 
 
-    public abstract void createMainClass();
+    protected abstract void createMainClass();
 
     public AbstractRoomMenager getRoomMenager() {
         return roomMenager;
@@ -28,7 +33,7 @@ public abstract class AbstractGameMenager {
         return mainFactory;
     }
 
-    public AbstractLobby getAbstractLobby() {
-        return abstractLobby;
+    public AbstractLobby getLobby() {
+        return lobby;
     }
 }
