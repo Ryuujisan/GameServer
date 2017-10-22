@@ -1,10 +1,14 @@
 package io.yuri.yuriserver.player;
 
 import io.yuri.yuriserver.lobby.AbstractLobby;
+import io.yuri.yuriserver.packet.OwnedPacket;
+import io.yuri.yuriserver.packet.Protos;
 import io.yuri.yuriserver.server.Server;
 import io.yuri.yuriserver.utils.ServerLog;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 public class AbstractConnection implements Runnable{
@@ -33,10 +37,12 @@ public class AbstractConnection implements Runnable{
         this.socketConection = socketConection;
     }
 
-    public void send(byte[] data) {
+    public void send(Protos.Packet packet) {
 
         try {
-            out.write(data);
+
+            out.write(packet.toByteArray());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,8 +53,15 @@ public class AbstractConnection implements Runnable{
 
         try {
 
-        while (socket.isInputShutdown()) {
-            // TODO:: jak podłącze proto
+        while (socket.isConnected()) {
+            Protos.Packet packet = Protos.Packet.parseFrom(in);
+            OwnedPacket ownedPacket = new OwnedPacket(this, packet);
+
+            if(socketConection !=  null) {
+                socketConection.onMessage(packet);
+            } else {
+                lobby.packetHandler.push(ownedPacket);
+            }
 
         }
             socket.close();
@@ -64,7 +77,5 @@ public class AbstractConnection implements Runnable{
         }
 
         ServerLog.DebugLog("Client Disconected: " + lobby.connectionList.size());
-
-
     }
 }

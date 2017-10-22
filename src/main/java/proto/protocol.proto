@@ -1,0 +1,84 @@
+syntax = "proto2";
+
+package yuri;
+
+option java_package = "io.yuri.yuriserver.packet";
+option java_outer_classname = "Protos";
+
+
+
+//==============================================================
+//                 Packet Contener
+//=============================================================
+
+message Packet{
+    optional Ping ping = 1;
+
+    optional Lobby lobby = 2;
+    optional JoinGame joinGame = 3;
+    optional LeaveGame leaveGame = 4;
+
+    optional Room room = 5;
+    optional PlayerJoined playerJoined = 6;
+    optional PlayerLeaved playerLeaved = 7;
+    optional Chat chat = 8;
+
+    optional Update update = 9;
+}
+
+message Ping {
+
+}
+
+//==============================================================
+//                  LOBBY
+//===============================================================
+
+message Lobby {
+
+}
+
+message JoinGame {
+    required string name = 1;
+}
+
+message LeaveGame {
+
+}
+
+//==================================================================
+//                  Room
+//==================================================================
+
+message Room {
+    repeated PlayerJoined players = 1;
+    required int32 localId = 2;
+}
+
+message PlayerJoined {
+    required int32 id = 1;
+    required string name = 2;
+}
+
+message PlayerLeaved {
+    required int32 id = 1;
+    required string reason = 2;
+}
+
+message Chat {
+    optional int32 playerId = 1;
+    required string text = 2;
+}
+
+//===============================================================
+//              Game
+//===============================================================
+
+message Update {
+    // Event, podobnie jak Packet powinien być serią optionalli, każdy opisujący jakieś wydarzenie w grze, np. nowe entity, przesuniecie gracza, zdobycie punktów itp.
+    message Event{
+
+    }
+
+    repeated Event events = 1;
+}

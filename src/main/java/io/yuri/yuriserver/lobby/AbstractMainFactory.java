@@ -21,6 +21,8 @@ public abstract class AbstractMainFactory {
     public abstract AbstractConnection newConnection(Socket socket) throws IOException;
     public abstract AbstractPacketHandler newPacketHendler();
     public abstract AbstractGame newGame(AbstractRoom room);
+    public abstract AbstractRoomMenager newRoomMenager();
+    public abstract AbstracktLobbyPacketHendler newLobbyPacketHendler(AbstractLobby lobby);
 
 
 }

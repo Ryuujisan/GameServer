@@ -1,7 +1,7 @@
 package Example;
 
-import io.yuri.yuriserver.lobby.AbstractMainFactory;
-import io.yuri.yuriserver.lobby.AbstractPacketHandler;
+import io.yuri.yuriserver.lobby.*;
+import io.yuri.yuriserver.lobby.AbstractRoomMenager;
 import io.yuri.yuriserver.player.AbstractConnection;
 import io.yuri.yuriserver.room.AbstractGame;
 import io.yuri.yuriserver.room.AbstractRoom;
@@ -23,5 +23,15 @@ public class MainFactory extends AbstractMainFactory {
     @Override
     public AbstractGame newGame(AbstractRoom room) {
         return null;
+    }
+
+    @Override
+    public AbstractRoomMenager newRoomMenager() {
+        return null;
+    }
+
+    @Override
+    public AbstracktLobbyPacketHendler newLobbyPacketHendler(AbstractLobby lobby) {
+        return new LobbyPacketHendler(lobby);
     }
 }

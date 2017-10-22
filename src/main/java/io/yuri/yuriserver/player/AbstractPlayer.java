@@ -1,5 +1,6 @@
 package io.yuri.yuriserver.player;
 
+import io.yuri.yuriserver.packet.Protos;
 import io.yuri.yuriserver.utils.Poolable;
 
 public class AbstractPlayer implements Poolable, ISocketConection {
@@ -18,7 +19,7 @@ public class AbstractPlayer implements Poolable, ISocketConection {
     }
 
     @Override
-    public void onMessage(byte[] data) {
+    public void onMessage(Protos.Packet packet) {
 
     }
 

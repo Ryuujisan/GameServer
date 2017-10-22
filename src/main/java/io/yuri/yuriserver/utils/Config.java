@@ -6,28 +6,25 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-
     static {
         reloadConfig();
     }
 
-
     private static Properties prop;
 
-    private static void reloadConfig() {
-
+    public static void reloadConfig() {
         prop = new Properties();
 
+        @SuppressWarnings("resource")
         InputStream input = null;
 
-
         try {
-            input = Config.class.getResourceAsStream("config.properties");
+            input = Config.class.getResourceAsStream("/config.properties");
             prop.load(input);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if(input != null) {
+            if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
@@ -35,29 +32,27 @@ public class Config {
                 }
             }
         }
-
     }
 
-    public static String getString(String key){
+    public static String getString(String key) {
         return prop.getProperty(key);
     }
 
     public static Integer getInteger(String key) {
-        return Integer.parseInt((getString(key)));
+        return Integer.parseInt(getString(key));
     }
 
-    public static float getFloat(String key) {
+    public static Float getFloat(String key) {
         return Float.parseFloat(getString(key));
     }
 
-    /*
-    Converte float seconds to long miliseconds
-     */
 
-    public static long getMiliseconds(String key) {
-        float seconds = Float.parseFloat((getString(key)));
+    /**
+     * Converts float seconds to long milliseconds.
+     */
+    public static long getMilliseconds(String key) {
+        float seconds = Float.parseFloat(getString(key));
         return (long)(seconds * 1000l);
     }
-
-
 }
+
