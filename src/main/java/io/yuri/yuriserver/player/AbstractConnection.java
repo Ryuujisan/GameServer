@@ -1,5 +1,6 @@
 package io.yuri.yuriserver.player;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import io.yuri.yuriserver.lobby.AbstractLobby;
 import io.yuri.yuriserver.packet.OwnedPacket;
 import io.yuri.yuriserver.packet.Protos;
@@ -12,6 +13,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class AbstractConnection implements Runnable{
+
+    public final int LENGHT_PACKET = 2;
+
     private Socket socket;
 
     private ISocketConection socketConection;
@@ -41,6 +45,11 @@ public class AbstractConnection implements Runnable{
 
         try {
 
+            Protos.Lenght leng = Protos.Lenght.newBuilder()
+                    .setPacketLenght(packet.toByteArray().length)
+                    .build();
+
+            out.write(leng.toByteArray());
             out.write(packet.toByteArray());
 
         } catch (IOException e) {
@@ -48,13 +57,54 @@ public class AbstractConnection implements Runnable{
         }
     }
 
+    private int encode() {
+
+        byte[] data = new byte[LENGHT_PACKET];
+
+        for(int i = 0 ; i < data.length; i++) {
+
+            try {
+                data[i] = in.readByte();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            Protos.Lenght lengt = Protos.Lenght.parseFrom(data);
+            return lengt.getPacketLenght();
+
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+
+    private Protos.Packet getPacket(int packetLengt) throws InvalidProtocolBufferException {
+
+        byte[] data = new byte[packetLengt];
+
+        for(int i = 0; i < packetLengt; i++) {
+            try {
+                data[i] = in.readByte();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return Protos.Packet.parseFrom(data);
+    }
+
+
     @Override
     public void run() {
 
         try {
 
         while (socket.isConnected()) {
-            Protos.Packet packet = Protos.Packet.parseFrom(in);
+            Protos.Packet packet = getPacket(encode());
             OwnedPacket ownedPacket = new OwnedPacket(this, packet);
 
             if(socketConection !=  null) {

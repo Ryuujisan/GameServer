@@ -5,6 +5,15 @@ package yuri;
 option java_package = "io.yuri.yuriserver.packet";
 option java_outer_classname = "Protos";
 
+//==============================================================
+//              Lenght Packet contener
+//==============================================================
+
+message Lenght{
+    required int32 packetLenght = 1;
+}
+
+
 
 
 //==============================================================
