@@ -1,4 +1,4 @@
-package Example;
+package Example.Player;
 
 import io.yuri.yuriserver.player.AbstractConnection;
 

@@ -1,5 +1,6 @@
 package Example;
 
+import Example.Player.Connection;
 import io.yuri.yuriserver.lobby.*;
 import io.yuri.yuriserver.lobby.AbstractRoomMenager;
 import io.yuri.yuriserver.player.AbstractConnection;
