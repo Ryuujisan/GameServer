@@ -1,8 +1,8 @@
 package io.yuri.yuriserver.room;
 
 import io.yuri.yuriserver.lobby.AbstractMainFactory;
-import io.yuri.yuriserver.lobby.AbstractPacketHandler;
 import io.yuri.yuriserver.lobby.AbstractRoomMenager;
+import io.yuri.yuriserver.packet.Protos;
 import io.yuri.yuriserver.player.AbstractPlayer;
 import io.yuri.yuriserver.utils.Pool;
 import io.yuri.yuriserver.utils.Poolable;
@@ -100,4 +100,7 @@ public abstract class AbstractRoom implements Poolable {
     }
 
     //TODO zrobic tworzenie sie pakietow prot player join tp;
+    public abstract Protos.Room roomProto(AbstractPlayer player);
+    public abstract Protos.PlayerJoined joinProto(AbstractPlayer player);
+    public abstract Protos.PlayerLeaved leavedProto(AbstractPlayer player, String reason);
 }

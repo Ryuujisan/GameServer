@@ -5,6 +5,7 @@ import io.yuri.yuriserver.lobby.*;
 import io.yuri.yuriserver.lobby.AbstractRoomMenager;
 import io.yuri.yuriserver.player.AbstractConnection;
 import io.yuri.yuriserver.room.AbstractGame;
+import io.yuri.yuriserver.room.AbstractPacketHandler;
 import io.yuri.yuriserver.room.AbstractRoom;
 
 import java.io.IOException;

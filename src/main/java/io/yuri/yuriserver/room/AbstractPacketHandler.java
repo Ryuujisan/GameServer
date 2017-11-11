@@ -1,4 +1,4 @@
-package io.yuri.yuriserver.lobby;
+package io.yuri.yuriserver.room;
 
 public class AbstractPacketHandler {
 }
