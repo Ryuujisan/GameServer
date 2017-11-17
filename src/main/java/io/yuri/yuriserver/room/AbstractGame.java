@@ -1,5 +1,6 @@
 package io.yuri.yuriserver.room;
 
+import io.yuri.yuriserver.packet.Protos;
 import io.yuri.yuriserver.player.AbstractPlayer;
 import io.yuri.yuriserver.utils.Config;
 
@@ -42,10 +43,10 @@ public abstract class AbstractGame {
     protected abstract void onEnd();
 
     // dodac zmienna z proto puzniej
-    public void addEvent(EventFilter filter) {
+    public void addEvent(Protos.Update.Event event, EventFilter filter) {
         for(AbstractPlayer player : room.players) {
             if(filter.visibleFor(player)){
-                //TODO dodanie eventu dla gracza;
+             player.getEvents().add(event);
             }
         }
     }
