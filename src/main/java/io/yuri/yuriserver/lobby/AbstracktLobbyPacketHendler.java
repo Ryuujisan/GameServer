@@ -5,6 +5,7 @@ import io.yuri.yuriserver.packet.Protos;
 import io.yuri.yuriserver.player.AbstractConnection;
 import io.yuri.yuriserver.utils.Config;
 
+import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -18,7 +19,7 @@ public abstract class AbstracktLobbyPacketHendler {
         lobby.newTimer(this::cycle, 1000 / Config.getInteger("packetHandlingRate"));
     }
 
-    public void push(OwnedPacket<AbstractConnection> packet) {
+    public void push(OwnedPacket<AbstractConnection> packet) throws IOException {
         if(packet.packet.hasPing()) {
             packet.owner.send(packet.packet);
         } else {

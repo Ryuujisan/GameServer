@@ -45,7 +45,7 @@ public class AbstractConnection implements Runnable{
         this.socketConection = socketConection;
     }
 
-    public void send(Protos.Packet packet) {
+    public void send(Protos.Packet packet) throws IOException {
 
         try {
 
@@ -57,7 +57,7 @@ public class AbstractConnection implements Runnable{
             out.write(packet.toByteArray());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            kick();
         }
     }
 
@@ -70,7 +70,7 @@ public class AbstractConnection implements Runnable{
             try {
                 data[i] = in.readByte();
             } catch (IOException e) {
-                e.printStackTrace();
+                kick();
             }
         }
 
@@ -111,6 +111,13 @@ public class AbstractConnection implements Runnable{
             Protos.Packet packet = getPacket(encode());
             OwnedPacket ownedPacket = new OwnedPacket(this, packet);
 
+            ServerLog.DebugLog(packet.getChat().getText());
+
+            Protos.Chat chat = Protos.Chat.newBuilder().setText("dsdsadsa").build();
+            Protos.Packet test = Protos.Packet.newBuilder().setChat(chat).build();
+
+            send(test);
+
             if(socketConection !=  null) {
                 socketConection.onMessage(packet);
             } else {
@@ -123,13 +130,13 @@ public class AbstractConnection implements Runnable{
             try {
                 kick();
             } catch (IOException e1) {
-                e1.printStackTrace();
+
             }
         }
         try {
             kick();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
         ServerLog.DebugLog("Client Disconected: " + lobby.connectionList.size());
     }
